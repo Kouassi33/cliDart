@@ -1,23 +1,23 @@
 
 
-class taskExeption implements Exception {
+class TaskExeption implements Exception {
   final String message;
-  taskExeption(this.message);
+  TaskExeption(this.message);
 
   @override
   String toString() {
-    return "taskExeption: $message";
+    return "TaskExeption: $message";
   }
 }
 
-class taskNotFoundException extends taskExeption {
-  taskNotFoundException(String id) : super("Task with id $id not found");
+class TaskNotFoundException extends TaskExeption {
+  TaskNotFoundException(String id) : super("Task with id $id not found");
 }
 
-class invalidPriorityException extends taskExeption {
-  invalidPriorityException(String value) : super("Invalid priority value: $value , use low, medium or high");
+class InvalidPriorityException extends TaskExeption {
+  InvalidPriorityException(String value) : super("Invalid priority value: $value , use low, medium or high");
 }
 
-class invalidDataException extends taskExeption {
-  invalidDataException(String reason) : super("Invalid data: $reason");
+class InvalidDataException extends TaskExeption {
+  InvalidDataException(String reason) : super("Invalid data: $reason");
 }

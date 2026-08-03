@@ -1,15 +1,16 @@
-import 'task.dart';
 
 
-class urgentTask extends task {
+import 'package:dart_cli/model/task.dart';
 
-  urgentTask(
+class UrgentTask extends Task {
+
+  UrgentTask(
     {
       required super.id,required super.title, 
-      super.status = taskStatus.high,required super.deadLine,
+      super.status = TaskStatus.high,required super.deadLine,
       super.isCompleted = false
       }
-    ):assert(deadLine != null, "Urgent task must have a deadline");
+    ):assert(deadLine != null, "Urgent Task must have a deadline");
 
 
   Map<String, dynamic> tojson()=>{
@@ -17,11 +18,11 @@ class urgentTask extends task {
     'status': 'high',
   };
 
-  factory urgentTask.fromjson(Map<String, dynamic> json){
-    return urgentTask(
+  factory UrgentTask.fromjson(Map<String, dynamic> json){
+    return UrgentTask(
       id: json['id'],
       title: json['title'],
-      status: taskStatus.values.firstWhere((e)=>e.name == json['status']),
+      status: TaskStatus.values.firstWhere((e)=>e.name == json['status']),
       deadLine: json['deadLine'] != null ? DateTime.parse(json['deadLine']) : null,
       isCompleted: json['isCompleted'] ?? false
     );

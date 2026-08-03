@@ -1,26 +1,27 @@
+import 'package:dart_cli/model/task_exception.dart';
+
 import 'faibleTask.dart';
 import 'normalTask.dart';
-import 'task_exception.dart';
 import 'urgent_Task.dart';
 //import 'dart:convert';
 
-enum taskStatus {low,medium,high }
+enum TaskStatus {low,medium,high }
 
 abstract class Serializable {
   Map<String, dynamic> tojson();
 }
 
-abstract class task implements Serializable, Comparable<task> {
+abstract class Task implements Serializable, Comparable<Task> {
   final int id;
   String title;
-  taskStatus status;
+  TaskStatus status;
   DateTime? deadLine;
   bool isCompleted;
 
-  task(
+  Task(
     {
       required this.title, required this.id, 
-      this.status = taskStatus.medium, this.isCompleted = false,
+      this.status = TaskStatus.medium, this.isCompleted = false,
       this.deadLine
     }
   );
@@ -33,15 +34,15 @@ abstract class task implements Serializable, Comparable<task> {
   }
 
   @override
-  int compareTo(task other){
+  int compareTo(Task other){
 
-    int priorityOrder(taskStatus p){
+    int priorityOrder(TaskStatus p){
 
-      if(p == taskStatus.low){
+      if(p == TaskStatus.low){
 
         return 0;
 
-      }else if(p == taskStatus.medium){
+      }else if(p == TaskStatus.medium){
 
         return 1;
 
@@ -77,17 +78,17 @@ abstract class task implements Serializable, Comparable<task> {
     'isCompleted':isCompleted,
   };
 
-  static task fromJson(Map<String, dynamic> json){
+  static Task fromJson(Map<String, dynamic> json){
     final type = json['status'];
     switch(type){
       case 'high':
-        return urgentTask.fromjson(json);
+        return UrgentTask.fromjson(json);
       case 'medium':
-        return normalTask.fromjson(json);
+        return NormalTask.fromjson(json);
       case 'low':
-        return faibleTask.fromjson(json);
+        return FaibleTask.fromjson(json);
     default:
-      throw taskExeption('Unknown task type: $type');
+      throw TaskExeption('Unknown Task type: $type');
     }
   }
 }

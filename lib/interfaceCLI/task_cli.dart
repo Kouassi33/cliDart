@@ -1,15 +1,17 @@
 import 'dart:io';
 
+
+import 'package:dart_cli/model/task.dart';
+import 'package:dart_cli/model/task_exception.dart';
+import 'package:dart_cli/repository/taskRepository.dart';
+
 import '../model/normalTask.dart';
-import '../model/task.dart';
-import '../model/task_exception.dart';
 import '../model/urgent_Task.dart';
-import '../repository/taskRepository.dart';
 
-class taskCLI {
-  final taskRepository<task> repository;
+class TaskCLI {
+  final TaskRepository<Task> repository;
 
-  taskCLI(this.repository);
+  TaskCLI(this.repository);
 
   void start(){
     repository.load();
@@ -54,16 +56,16 @@ class taskCLI {
       stdout.write('Titre: ');
       final title = stdin.readLineSync()?.trim();
       if(title == null || title.isEmpty){
-        throw invalidDataException('Le titre ne peut pas être vide.');
+        throw InvalidDataException('Le titre ne peut pas être vide.');
       }
 
       stdout.write('Type de tâche (low, medium, high): ');
       final typeInput = stdin.readLineSync()?.trim().toLowerCase() ?? "medium";
-      taskStatus status;
+      TaskStatus status;
       try{
-        status = taskStatus.values.firstWhere((e)=>e.name == typeInput);
+        status = TaskStatus.values.firstWhere((e)=>e.name == typeInput);
       }catch(_){
-        throw invalidPriorityException(typeInput);
+        throw InvalidPriorityException(typeInput);
       }
 
       stdout.write('Date limite (YYYY-MM-DD) ou laissez vide: ');
@@ -73,32 +75,32 @@ class taskCLI {
         try{
           deadLine = DateTime.parse(deadLineInput);
           if(deadLine.isBefore(DateTime.now())){
-            throw invalidDataException('La date limite ne peut pas être dans le passé.');
+            throw InvalidDataException('La date limite ne peut pas être dans le passé.');
           }
         }catch(_){
-          throw invalidDataException('Format de date invalide. Veuillez utiliser YYYY-MM-DD.');
+          throw InvalidDataException('Format de date invalide. Veuillez utiliser YYYY-MM-DD.');
         }
       }  
 
       final id = DateTime.now().millisecondsSinceEpoch;
 
-      task newTask;
-      if(status == taskStatus.high && deadLine != null){
-      newTask = urgentTask(
+      Task newTask;
+      if(status == TaskStatus.high && deadLine != null){
+      newTask = UrgentTask(
         id: id,
         title: title,
         status: status,
         deadLine: deadLine
       );
-    }else if(status == taskStatus.medium && deadLine != null){
-      newTask = normalTask(
+    }else if(status == TaskStatus.medium && deadLine != null){
+      newTask = NormalTask(
         id: id,
         title: title,
         status: status,
         deadLine: deadLine
       );
     }else{
-      newTask = task.fromJson(
+      newTask = Task.fromJson(
         {'id': id,
         'title': title,
         'status': status.name,
@@ -110,7 +112,7 @@ class taskCLI {
     
     repository.add(newTask);
     print('Tâche ajoutée avec succès.');
-    } on taskExeption catch(e){
+    } on TaskExeption catch(e){
     print('Erreur: ${e.message}');
     }catch(e){
       print('Erreur inattendue: $e');
@@ -118,17 +120,17 @@ class taskCLI {
   }
 
   void _listTasks(){
-    final tasks = repository.getAll(sort:true);
-    if(tasks.isEmpty){
+    final Tasks = repository.getAll(sort:true);
+    if(Tasks.isEmpty){
       print('Aucune tâche disponible.');
       return;
     }
     print('\n------------ Liste des tâches ------------');
-    for(var task in tasks){
-      final state = task.isCompleted ? '[✔]' : (task.isOverdue() ? 'retard' : '[ ]');
-      final priorityLabel = task.status.name.toUpperCase();
-      final deadLineLabel = task.deadLine != null ? '(échéance: ${task.deadLine!.toLocal()})' : '';
-      print('$state ${task.id} : ${task.title} - $priorityLabel $deadLineLabel');
+    for(var Task in Tasks){
+      final state = Task.isCompleted ? '[✔]' : (Task.isOverdue() ? 'retard' : '[ ]');
+      final priorityLabel = Task.status.name.toUpperCase();
+      final deadLineLabel = Task.deadLine != null ? '(échéance: ${Task.deadLine!.toLocal()})' : '';
+      print('$state ${Task.id} : ${Task.title} - $priorityLabel $deadLineLabel');
     }
   }
 
@@ -143,7 +145,7 @@ class taskCLI {
     try{
       repository.complete(id);
       print('Tâche marquée comme terminée.');
-    }on taskNotFoundException catch(e){
+    }on TaskNotFoundException catch(e){
       print('$e');
     }
   }
@@ -159,7 +161,7 @@ class taskCLI {
     try{
       repository.delete(id);
       print('Tâche supprimée avec succès.');
-    }on taskNotFoundException catch(e){
+    }on TaskNotFoundException catch(e){
       print('$e');
     }
   }

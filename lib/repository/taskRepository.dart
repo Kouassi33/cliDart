@@ -1,14 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 
-import '../model/task.dart';
-import '../model/task_exception.dart';
+import 'package:dart_cli/model/task.dart';
+import 'package:dart_cli/model/task_exception.dart';
 
-class taskRepository <T extends task>{
+
+
+class TaskRepository <T extends Task>{
   final String _filePath;
   List<T> _items = [];
 
-  taskRepository(this._filePath);
+  TaskRepository(this._filePath);
 
   void load(){
     try{
@@ -20,10 +22,10 @@ class taskRepository <T extends task>{
       final content = file.readAsStringSync();
       final List<dynamic> jsonList = jsonDecode(content);
       _items = jsonList
-              .map((json)=>task.fromJson(json as Map<String, dynamic>) as T)
+              .map((json)=>Task.fromJson(json as Map<String, dynamic>) as T)
               .toList();
     } catch(e){
-      throw Exception("Failed to load tasks from file: $e");
+      throw Exception("Failed to load Tasks from file: $e");
     }
   }
 
@@ -31,18 +33,18 @@ class taskRepository <T extends task>{
   void save(){
     try{
       final file = File(_filePath);
-      final jsonList = _items.map((task)=> task.tojson()).toList();
+      final jsonList = _items.map((Task)=> Task.tojson()).toList();
       file.writeAsStringSync(jsonEncode(jsonList));
     }catch(e){
-      throw Exception("Failed to save tasks to file: $e");  
+      throw Exception("Failed to save Tasks to file: $e");  
     }
   }
 
-  void add(T task){
-    if(_items.any((t)=>t.id == task.id)){
-      throw taskExeption("Task with id ${task.id} already exists");
+  void add(T Task){
+    if(_items.any((t)=>t.id == Task.id)){
+      throw TaskExeption("Task with id ${Task.id} already exists");
     }
-    _items.add(task);
+    _items.add(Task);
     save();
   }
 
@@ -58,19 +60,19 @@ class taskRepository <T extends task>{
     try{
       return _items.firstWhere((t)=>t.id == id);
     }catch(e){
-      throw taskNotFoundException(id.toString());
+      throw TaskNotFoundException(id.toString());
     }
   }
 
   void complete(int id){
-    final task = _findById(id);
-    task.isCompleted = true;
+    final Task = _findById(id);
+    Task.isCompleted = true;
     save();
   }
 
   void delete(int id){
-    final task = _findById(id);
-    _items.remove(task);
+    final Task = _findById(id);
+    _items.remove(Task);
     save();
   }
 }

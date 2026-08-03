@@ -1,12 +1,13 @@
-import 'task.dart';
 
 
-class normalTask extends task {
+import 'package:dart_cli/model/task.dart';
 
-  normalTask(
+class NormalTask extends Task {
+
+  NormalTask(
     {
       required super.id,required super.title, 
-      super.status = taskStatus.medium,required super.deadLine,
+      super.status = TaskStatus.medium,required super.deadLine,
       super.isCompleted = false
       }
     );
@@ -17,11 +18,11 @@ class normalTask extends task {
     'status': 'medium',
   };
 
-  factory normalTask.fromjson(Map<String, dynamic> json){
-    return normalTask(
+  factory NormalTask.fromjson(Map<String, dynamic> json){
+    return NormalTask(
       id: json['id'],
       title: json['title'],
-      status: taskStatus.values.firstWhere((e)=>e.name == json['status']),
+      status: TaskStatus.values.firstWhere((e)=>e.name == json['status']),
       deadLine: json['deadLine'] != null ? DateTime.parse(json['deadLine']) : null,
       isCompleted: json['isCompleted'] ?? false
     );
