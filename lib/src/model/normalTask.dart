@@ -9,6 +9,7 @@ class NormalTask extends Task {
     super.isCompleted = false,
   });
 
+  @override
   Map<String, dynamic> tojson() => {...super.tojson(), 'status': 'medium'};
 
   factory NormalTask.fromjson(Map<String, dynamic> json) {

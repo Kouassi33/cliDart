@@ -9,6 +9,7 @@ class FaibleTask extends Task {
     super.isCompleted = false,
   });
 
+  @override
   Map<String, dynamic> tojson() => {...super.tojson(), 'status': 'low'};
 
   factory FaibleTask.fromjson(Map<String, dynamic> json) {

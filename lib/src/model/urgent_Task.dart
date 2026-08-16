@@ -9,6 +9,7 @@ class UrgentTask extends Task {
     super.isCompleted = false,
   }) : assert(deadLine != null, "Urgent Task must have a deadline");
 
+  @override
   Map<String, dynamic> tojson() => {...super.tojson(), 'status': 'high'};
 
   factory UrgentTask.fromjson(Map<String, dynamic> json) {
