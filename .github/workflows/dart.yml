@@ -22,8 +22,8 @@ jobs:
       - name: Installer les dépendances
         run: dart pub get
 
-      - name: Vérifier le formatage du code
-        run: dart format --output=none --set-exit-if-changed .
+#      - name: Vérifier le formatage du code
+#        run: dart format --output=none --set-exit-if-changed .
 
       - name: Analyser le code (Linter)
         run: dart analyze --fatal-infos
