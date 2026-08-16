@@ -17,7 +17,7 @@ void main(){
 
     if(file.existsSync()) file.deleteSync();
 
-    final repo = TaskRepository<Task>(path);
+    final repo = TaskRepository<Task>(path,Task.fromJson);
     repo.load();
 
     expect(() => repo.delete(1), throwsA(isA<TaskNotFoundException>()));
