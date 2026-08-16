@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:dart_cli/model/faibleTask.dart';
-import 'package:dart_cli/model/normalTask.dart';
-import 'package:dart_cli/model/task.dart';
-import 'package:dart_cli/model/task_exception.dart';
-import 'package:dart_cli/model/urgent_Task.dart';
-import 'package:dart_cli/repository/taskRepository.dart';
+import 'package:dart_cli/src/model/faibleTask.dart';
+import 'package:dart_cli/src/model/normalTask.dart';
+import 'package:dart_cli/src/model/task.dart';
+import 'package:dart_cli/src/model/task_exception.dart';
+import 'package:dart_cli/src/model/urgent_Task.dart';
+import 'package:dart_cli/src/repository/taskRepository.dart';
 import 'package:test/test.dart';
 
 

@@ -1,9 +1,9 @@
 import 'dart:io';
 
 
-import 'package:dart_cli/model/task.dart';
-import 'package:dart_cli/model/task_exception.dart';
-import 'package:dart_cli/repository/taskRepository.dart';
+import 'package:dart_cli/src/model/task.dart';
+import 'package:dart_cli/src/model/task_exception.dart';
+import 'package:dart_cli/src/repository/taskRepository.dart';
 
 import '../model/normalTask.dart';
 import '../model/urgent_Task.dart';

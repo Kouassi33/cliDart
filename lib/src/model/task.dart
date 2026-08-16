@@ -1,4 +1,4 @@
-import 'package:dart_cli/model/task_exception.dart';
+import 'package:dart_cli/src/model/task_exception.dart';
 
 import 'faibleTask.dart';
 import 'normalTask.dart';

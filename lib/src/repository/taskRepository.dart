@@ -1,16 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dart_cli/model/task.dart';
-import 'package:dart_cli/model/task_exception.dart';
+import 'package:dart_cli/src/model/task.dart';
+import 'package:dart_cli/src/model/task_exception.dart';
 
 
 
 class TaskRepository <T extends Task>{
   final String _filePath;
+  final T Function(Map<String, dynamic>) _fromJson;
   List<T> _items = [];
 
-  TaskRepository(this._filePath);
+  TaskRepository(this._filePath, this._fromJson);
 
   void load(){
     try{
@@ -22,7 +23,7 @@ class TaskRepository <T extends Task>{
       final content = file.readAsStringSync();
       final List<dynamic> jsonList = jsonDecode(content);
       _items = jsonList
-              .map((json)=>Task.fromJson(json as Map<String, dynamic>) as T)
+              .map((json)=>_fromJson(json as Map<String, dynamic>))
               .toList();
     } catch(e){
       throw Exception("Failed to load Tasks from file: $e");

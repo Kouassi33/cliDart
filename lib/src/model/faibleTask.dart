@@ -1,6 +1,6 @@
 
 
-import 'package:dart_cli/model/task.dart';
+import 'package:dart_cli/src/model/task.dart';
 
 class FaibleTask extends Task {
 
