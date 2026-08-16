@@ -1,5 +1,3 @@
-
-
 class TaskExeption implements Exception {
   final String message;
   TaskExeption(this.message);
@@ -15,7 +13,8 @@ class TaskNotFoundException extends TaskExeption {
 }
 
 class InvalidPriorityException extends TaskExeption {
-  InvalidPriorityException(String value) : super("Invalid priority value: $value , use low, medium or high");
+  InvalidPriorityException(String value)
+    : super("Invalid priority value: $value , use low, medium or high");
 }
 
 class InvalidDataException extends TaskExeption {

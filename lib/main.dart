@@ -5,7 +5,7 @@ import 'src/model/task.dart';
 
 void main() {
   const filePath = 'tasks.json';
-  final repository = TaskRepository<Task>(filePath,Task.fromJson);
+  final repository = TaskRepository<Task>(filePath, Task.fromJson);
   final cli = TaskCLI(repository);
   cli.start();
 }
